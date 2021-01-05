@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using CoreOSR.Authorization.Roles;
 using CoreOSR.Authorization.Users;
 using CoreOSR.Chat;
+using CoreOSR.DxGridDemo;
 using CoreOSR.Editions;
 using CoreOSR.Friendships;
 using CoreOSR.MultiTenancy;
@@ -31,6 +32,7 @@ namespace CoreOSR.EntityFrameworkCore
         public virtual DbSet<Invoice> Invoices { get; set; }
 
         public virtual DbSet<PersistedGrantEntity> PersistedGrants { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
 
         public CoreOSRDbContext(DbContextOptions<CoreOSRDbContext> options)
             : base(options)
