@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DxGridComponent } from './gridDemo/dxGrid.component';
+
 
 @NgModule({
     imports: [
@@ -11,7 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } }
                 ]
             },
-			{ path: 'dxGrid', component: DxGridComponent, data: { permission: ''}
+			{ path: 'dxGrid', component: DxGridComponent, data: { permission: ''}}
         ])
     ],
     exports: [

@@ -10,7 +10,7 @@ import { MainRoutingModule } from './main-routing.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { DxDataGridModule,DxBulletModule,DxTemplateModule,DxListModule } from 'devextreme-angular';
-import { DashboardComponent } from './gridDemo/dxGrid.component';
+import { DxGridComponent } from './gridDemo/dxGrid.component';
 
 
 import { BsDatepickerModule, BsDatepickerConfig, BsDaterangepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
