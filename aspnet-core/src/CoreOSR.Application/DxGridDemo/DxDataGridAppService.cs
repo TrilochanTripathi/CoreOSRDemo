@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
+using Newtonsoft.Json;
 
 namespace CoreOSR.DxGridDemo
 {
@@ -84,6 +85,35 @@ namespace CoreOSR.DxGridDemo
 
                 }
             };
+        }
+        [Abp.Web.Models.DontWrapResult]
+        public async Task<DxDataGridDto> CreatePerson(string values)
+        {
+            var employee = JsonConvert.DeserializeObject<Employee>(values);
+
+            await _employeeRepository.InsertAsync(employee);
+            await CurrentUnitOfWork.SaveChangesAsync();
+            return new DxDataGridDto();
+        }
+        [Abp.Web.Models.DontWrapResult]
+        public async Task<string> UpdatePerson(int key, string values)
+        {
+
+            Employee employee = _employeeRepository.FirstOrDefault(x => x.Id == key);
+            JsonConvert.PopulateObject(values, employee);
+
+
+            await _employeeRepository.UpdateAsync(employee);
+            await CurrentUnitOfWork.SaveChangesAsync();
+            return "updated";
+        }
+        [Abp.Web.Models.DontWrapResult]
+        public async Task<string> DeletePerson(int key)
+        {
+            await _employeeRepository.DeleteAsync(x => x.Id == key);
+
+            await CurrentUnitOfWork.SaveChangesAsync();
+            return "Deleted";
         }
     }
 }
