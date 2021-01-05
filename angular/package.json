@@ -58,6 +58,7 @@
     "simple-line-icons": "^2.4.1",
     "sweetalert2": "^8.11.6",
     "text-mask-addons": "^3.8.0",
+    "yarn": "^1.22.10",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
