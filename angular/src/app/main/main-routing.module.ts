@@ -10,7 +10,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
                 children: [
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } }
                 ]
-            }
+            },
+			{ path: 'dxGrid', component: DxGridComponent, data: { permission: ''}
         ])
     ],
     exports: [
