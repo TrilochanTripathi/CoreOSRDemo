@@ -1,19 +1,30 @@
-﻿using CoreOSR.DxGridDemo.Dto;
+using CoreOSR.DxGridDemo.Dto;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Domain.Repositories;
 using Newtonsoft.Json;
+using CoreOSR.DxGridDemo.ModelBinder;
+using DevExtreme.AspNet.Data;
 
 namespace CoreOSR.DxGridDemo
 {
     public class DxDataGridAppService : CoreOSRAppServiceBase, IDxDataGridAppService
     {
         private readonly IRepository<Employee, int> _employeeRepository;
-        public DxDataGridAppService(IRepository<Employee, int> employeeRepository)
+        private readonly IRepository<Gender, int> _genderRepository;
+        private readonly IRepository<Company, int> _companyRepository;
+        private readonly IRepository<JobTitle, int> _jobTitleRepository;
+        public DxDataGridAppService(IRepository<Employee, int> employeeRepository,
+             IRepository<Gender, int> genderRepository,
+             IRepository<Company, int> companyRepository,
+             IRepository<JobTitle, int> jobTitleRepository)
         {
             _employeeRepository = employeeRepository;
+            _genderRepository = genderRepository;
+            _companyRepository = companyRepository;
+            _jobTitleRepository = jobTitleRepository;
         }
 
         [Abp.Web.Models.DontWrapResult]
@@ -37,54 +48,28 @@ namespace CoreOSR.DxGridDemo
             return dtoObjList;
         }
         [Abp.Web.Models.DontWrapResult]
-        public  GenderMasterOutputDto GetGender()
+        public async Task<object> GetGender(DataSourceLoadOptions loadOptions)
         {
-            //kept here for demo only. Ideally should go to db through adding a migration
-            return new GenderMasterOutputDto
-            {
-                data =
-                    new List<KeyValueResultOutput> {
-                        new KeyValueResultOutput { Text="Male",Value="ML"},
-                        new KeyValueResultOutput { Text="Female",Value="FML"}
-                    }
-            };
+
+            var c = from g in _genderRepository.GetAll()
+                    select new { Value=g.GenderCode,Text=g.Description};
+            return await DataSourceLoader.LoadAsync(c, loadOptions);
+           
         }
         [Abp.Web.Models.DontWrapResult]
-        public  JobTitleMasterOutputDto GetJobTitles()
+        public async Task<object> GetJobTitles(DataSourceLoadOptions loadOptions)
         {
-            //kept here for demo only. Ideally should go to db through adding a migration
-            return new JobTitleMasterOutputDto
-            {
-                data = new List<KeyValueResultOutput>
-                {
-                    new KeyValueResultOutput {Text = "Lead Developer", Value = "LDR"},
-                    new KeyValueResultOutput {Text = "Developer", Value = "DVR"},
-                    new KeyValueResultOutput {Text = "Software Enginner", Value = "SWR"},
-                    new KeyValueResultOutput {Text = "Data Scientist", Value = "DST"},
-                    new KeyValueResultOutput {Text = "Executive", Value = "EXTV"},
-                    new KeyValueResultOutput {Text = "Marketing Head", Value = "MKTH"}
-
-                }
-            };
+            var jobTitles = from g in _jobTitleRepository.GetAll()
+                    select new { Value = g.JobCode, Text = g.Description };
+            return await DataSourceLoader.LoadAsync(jobTitles, loadOptions);
         }
 
         [Abp.Web.Models.DontWrapResult]
-        public CompanyMasterOutputDto GetCompanies()
+        public async Task<object> GetCompanies(DataSourceLoadOptions loadOptions)
         {
-            // kept here for demo only. Ideally should go to db through adding a migration
-             return new CompanyMasterOutputDto
-            {
-                data = new List<KeyValueResultOutput>
-                {
-                    new KeyValueResultOutput {Text = "Microsoft", Value = "MSFT"},
-                    new KeyValueResultOutput {Text = "Google", Value = "GGL"},
-                    new KeyValueResultOutput {Text = "Amazon", Value = "AMZN"},
-                    new KeyValueResultOutput {Text = "IBM", Value = "IBM"},
-                    new KeyValueResultOutput {Text = "Infosys", Value = "INFY"},
-                    new KeyValueResultOutput {Text = "Tata consl. services", Value = "TCS"}
-
-                }
-            };
+            var companies = from g in _companyRepository.GetAll()
+                            select new { Value = g.CompanyCode, Text = g.Description };
+            return await DataSourceLoader.LoadAsync(companies, loadOptions);
         }
         [Abp.Web.Models.DontWrapResult]
         public async Task<DxDataGridDto> CreatePerson(string values)
