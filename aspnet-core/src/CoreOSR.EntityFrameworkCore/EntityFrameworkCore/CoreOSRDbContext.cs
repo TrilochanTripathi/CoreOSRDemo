@@ -33,6 +33,9 @@ namespace CoreOSR.EntityFrameworkCore
 
         public virtual DbSet<PersistedGrantEntity> PersistedGrants { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Gender> Genders { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<JobTitle> JobTitles { get; set; }
 
         public CoreOSRDbContext(DbContextOptions<CoreOSRDbContext> options)
             : base(options)
